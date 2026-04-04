@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="MeshTailor: Cutting Seams via Generative Mesh Traversal. A mesh-native generative framework for edge-aligned UV seams on 3D surfaces.">
+  <meta name="keywords" content="UV unwrapping, mesh seams, 3D geometry, generative model, graph neural network, pointer network">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MeshTailor: Cutting Seams via Generative Mesh Traversal</title>
+  <link rel="icon" type="image/svg+xml"
+    href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Ctext%20y%3D%22.85em%22%20font-size%3D%2288%22%3E%E2%9C%82%EF%B8%8F%3C%2Ftext%3E%3C%2Fsvg%3E">
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+</head>
+
+<body>
+
+  <nav class="navbar" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+      <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
+    </div>
+    <div class="navbar-menu">
+      <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
+        <a class="navbar-item" href="./" title="MeshTailor project page">
+          <span class="icon">
+            <i class="fas fa-home"></i>
+          </span>
+        </a>
+
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link">
+            More Research
+          </a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="https://vcc.tech/research/2025/CLRWire">
+              CLR-Wire: Towards Continuous Latent Representations for 3D Curve Wireframe Generation, SIGGRAPH 2025
+            </a>
+            <a class="navbar-item" href="https://vcc.tech/research/2024/3DWire">
+              Generating 3D House Wireframes with Semantics, ECCV 2024
+            </a>
+            <a class="navbar-item" href="https://omages.github.io">
+              Object Images (Omages): 3D Object Generation via Image Diffusion, 3DV 2025
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+
+  <!-- ═══ HERO ═══════════════════════════════════════════════════════════ -->
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+
+            <h2 class="title is-2 publication-title">
+              ✂️ MeshTailor: Cutting Seams via<br>Generative Mesh Traversal
+            </h2>
+
+            <div class="is-size-5 publication-authors">
+              <span class="author-block">
+                <a href="https://qixuema.github.io/">Xueqi Ma</a><sup>1</sup>,</span>
+              <span class="author-block">
+                <a href="http://yanxg.art">Xingguang Yan</a><sup>2</sup>,</span>
+              <span class="author-block">
+                Congyue Zhang<sup>1</sup>,</span>
+              <span class="author-block">
+                <a href="https://vcc.tech/~huihuang">Hui Huang</a><sup>1*</sup></span>
+            </div>
+
+            <div class="is-size-6 publication-authors" style="margin-top: 0.4em;">
+              <span class="author-block"><sup>1</sup>Shenzhen University</span>
+              &nbsp;&nbsp;
+              <span class="author-block"><sup>2</sup>Simon Fraser University</span>
+              &nbsp;&nbsp;
+              <span class="author-block"><sup>*</sup>Corresponding author</span>
+            </div>
+
+            <div class="has-text-centered publication-links-wrap">
+              <div class="publication-links">
+                <!-- arXiv -->
+                <span class="link-block">
+                  <a href="https://arxiv.org/abs/2603.27309"
+                    class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                    </span>
+                    <span>arXiv</span>
+                  </a>
+                </span>
+                <!-- Paper PDF -->
+                <span class="link-block">
+                  <a href="https://arxiv.org/pdf/2603.27309.pdf"
+                    class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                    </span>
+                    <span>Paper</span>
+                  </a>
+                </span>
+                <!-- Code (TBA): same visual style as links, non-interactive -->
+                <span class="link-block">
+                  <span class="external-link button is-normal is-rounded is-dark button-disabled-tba"
+                    role="status" aria-disabled="true" title="Code release coming soon">
+                    <span class="icon">
+                      <i class="fab fa-github"></i>
+                    </span>
+                    <span>Code (TBA)</span>
+                  </span>
+                </span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══ TEASER VIDEO ═════════════════════════════════════════════════ -->
+  <section class="hero teaser">
+    <div class="container is-max-desktop">
+      <div class="hero-body">
+        <video id="teaser" class="teaser-video" loop playsinline controls preload="metadata"
+          poster="./static/images/teaser_short_poster.jpg">
+          <source src="./static/videos/vid_teaser_short.mp4" type="video/mp4">
+        </video>
+        <h2 class="subtitle has-text-centered">
+          <b>MeshTailor</b> generates seams directly on the mesh graph, without projecting coordinates or snapping to edges. The resulting UV charts stay clean and coherent for texturing.
+        </h2>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ TL;DR + GARMENTCODE RESULTS ═══════════════════════════════════════ -->
+  <section class="section garmentcode-hero" id="results-garmentcode" aria-labelledby="tldr-heading">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3 has-text-left" id="tldr-heading">TL;DR</h2>
+          <div class="content has-text-left is-size-5">
+            <p>
+              <b>MeshTailor</b> generates <b>UV seams on the mesh graph itself</b>—no 2D projections,
+              no snapping heuristics. An autoregressive transformer walks the surface and places
+              cuts that stay <b>edge-aligned</b> and <b>globally coherent</b>, similar to how artists
+              structure seams before unwrapping.
+            </p>
+            <p>
+              Below: qualitative comparison on <b>GarmentCode</b> (<b>GarmentCodeData</b>) garments—
+              MeshTailor tends to recover long, meaningful cuts instead of scattered fragments typical
+              of distortion-only optimization.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="columns is-centered" style="margin-top: 1.25rem;">
+        <div class="column is-11-desktop is-12-tablet">
+          <h3 class="title is-4 has-text-left">GarmentCode results</h3>
+          <figure class="image">
+            <img src="./static/images/fig_motivation.png"
+              class="interpolation-image"
+              alt="UV seam layouts on GarmentCode garments: professional-style seams versus fragmented optimization-based seams.">
+          </figure>
+          <p class="content has-text-left is-size-6" style="margin-top: 0.75rem;">
+            GarmentCodeData: professional-style seam layouts vs. typical optimization-derived seams (see paper for setup and metrics).
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container is-max-desktop">
+
+      <!-- ═══ ABSTRACT ═══════════════════════════════════════════════════ -->
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3">Abstract</h2>
+          <div class="content has-text-justified">
+            <p>
+              We present <b>MeshTailor</b>, the first mesh-native generative framework for synthesizing
+              edge-aligned seams on 3D surfaces. Unlike prior optimization-based or extrinsic
+              learning-based methods, MeshTailor operates directly on the mesh graph, eliminating
+              projection artifacts and fragile snapping heuristics. We introduce
+              <b>ChainingSeams</b>, a hierarchical serialization of the seam graph that prioritizes
+              global structural cuts before local details in a coarse-to-fine manner, and a
+              dual-stream encoder that fuses topological and geometric context. Leveraging this
+              hierarchical representation and enriched vertex embeddings, our
+              <b>MeshTailor Transformer</b> utilizes an autoregressive pointer layer to trace seams
+              vertex-by-vertex within local neighborhoods, ensuring projection-free, edge-aligned
+              seams. Extensive evaluations show that MeshTailor produces more coherent,
+              professional-quality seam layouts compared to recent optimization-based and
+              learning-based baselines.
+            </p>
+          </div>
+        </div>
+      </div>
+      <!-- end Abstract -->
+
+      <br>
+
+      <!-- ═══ FULL TEASER (long form) ═══════════════════════════════════════ -->
+      <h2 class="title is-3 has-text-centered">Full walkthrough with narration </h2>
+      <!-- <p class="content has-text-centered">
+        
+      </p> -->
+      <div class="container is-max-desktop">
+        <div class="hero-body">
+          <video id="teaser-full" class="teaser-video" loop playsinline controls preload="metadata"
+            poster="./static/images/teaser_full_poster.jpg">
+            <source src="./static/videos/vid_teaser.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+
+      <br>
+
+      <!-- ═══ RELATED LINKS ═══════════════════════════════════════════════ -->
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3">Related Links</h2>
+          <div class="content has-text-justified">
+            <ul>
+              <li>
+                <a href="https://arxiv.org/abs/2506.18017">SeamGPT: Auto-Regressive Surface Cutting</a>
+                (arXiv)
+              </li>
+              <li>
+                <a href="https://arxiv.org/abs/2509.20725">SeamCrafter: Enhancing Mesh Seam Generation for Artist UV Unwrapping via Reinforcement Learning</a>
+                (arXiv)
+              </li>
+              <li>
+                <a href="https://github.com/jpcy/xatlas">xatlas</a> — mesh parameterization / UV unwrapping library
+              </li>
+              <li>
+                <a href="https://arxiv.org/abs/2511.16659">PartUV: Part-Based UV Unwrapping of 3D Meshes</a>
+                (arXiv)
+              </li>
+              <li>
+                <a href="https://arxiv.org/abs/2312.05283">Nuvo: Neural UV Mapping for Unruly 3D Representations</a>
+                (arXiv)
+              </li>
+              <li>
+                <a href="https://arxiv.org/abs/2011.13748">GraphSeam: Supervised Graph Learning Framework for Semantic UV Mapping</a>
+                (arXiv)
+              </li>
+              <li>
+                <a href="https://www.cs.ubc.ca/labs/imager/tr/2018/OptCuts/">OptCuts: Joint Optimization of Surface Cuts and Parameterization</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <br>
+
+    </div>
+  </section>
+
+  <!-- ═══ BIBTEX ═══════════════════════════════════════════════════════ -->
+  <section class="section" id="BibTeX">
+    <div class="container is-max-desktop content">
+      <h2 class="title">BibTeX</h2>
+      <pre><code>@misc{ma2026meshtailorcuttingseamsgenerative,
+        title={MeshTailor: Cutting Seams via Generative Mesh Traversal}, 
+        author={Xueqi Ma and Xingguang Yan and Congyue Zhang and Hui Huang},
+        year={2026},
+        eprint={2603.27309},
+        archivePrefix={arXiv},
+        primaryClass={cs.GR},
+        url={https://arxiv.org/abs/2603.27309}, 
+  }</code></pre>
+    </div>
+  </section>
+
+
+  <!-- ═══ FOOTER ═══════════════════════════════════════════════════════ -->
+  <footer class="footer">
+    <div class="container">
+      <div class="content has-text-centered">
+        <a class="icon-link" href="https://arxiv.org/pdf/2603.27309.pdf" title="Paper PDF">
+          <i class="fas fa-file-pdf"></i>
+        </a>
+        <span class="icon-link icon-link-disabled" title="Code (TBA)" aria-label="Code repository not yet published">
+          <i class="fab fa-github" style="opacity: 0.35;" aria-hidden="true"></i>
+        </span>
+      </div>
+      <div class="columns is-centered">
+        <div class="column is-8">
+          <div class="content">
+            <p>
+              This website is licensed under a <a rel="license"
+                href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
+                Commons Attribution-ShareAlike 4.0 International License</a>.
+            </p>
+            <p>
+              We build this website based on the source code of
+              <a href="https://github.com/nerfies/nerfies.github.io">nerfies.github.io</a>.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+
+</html>

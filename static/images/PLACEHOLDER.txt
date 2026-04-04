@@ -1,0 +1,29 @@
+Figure assets for MeshTailor project page
+==========================================
+
+Teaser posters (from meshtailor.github.io/):
+
+  teaser_short_poster.jpg — hero / short clip (frame at t=3s from vid_teaser_short.mp4):
+    ffmpeg -y -ss 3 -i static/videos/vid_teaser_short.mp4 -frames:v 1 -q:v 2 static/images/teaser_short_poster.jpg
+
+  teaser_full_poster.jpg — full teaser (frame at t=2:00 from vid_teaser.mp4):
+    ffmpeg -y -ss 120 -i static/videos/vid_teaser.mp4 -frames:v 1 -q:v 2 static/images/teaser_full_poster.jpg
+
+  Legacy (single-poster workflow): teaser_poster.jpg at t=4s from vid_teaser.mp4 — superseded by the two lines above for index.html.
+
+Sources (LaTeX repo: MeshTailor/fig/):
+
+  fig_motivation.png   – garment_seam.pdf (GarmentCodeData seam comparison)
+  fig_overview.png     – overview.png
+  fig_traversal.png    – decoding_step.pdf → PNG
+  fig_comparison.png   – texverse_seam.pdf → PNG
+  fig_user_study.png   – user_study.pdf → PNG
+  fig_applications.png – texturing.pdf → PNG
+
+Regenerate (example):
+
+  pdftoppm -png -r 150 -f 1 -l 1 fig/FOO.pdf out_tmp
+  mv out_tmp-1.png static/images/fig_BAR.png
+  convert static/images/fig_BAR.png -resize '1600x>' -strip static/images/fig_BAR.png
+
+Legacy Omages PNGs (fig_gallery, fig_pipeline, fig_teaser) are unused by index.html.
