@@ -163,12 +163,12 @@
               <b>MeshTailor</b> generates <b>UV seams on the mesh graph itself</b>—no 2D projections,
               no snapping heuristics. An autoregressive transformer walks the surface and places
               cuts that stay <b>edge-aligned</b> and <b>globally coherent</b>, similar to how artists
-              structure seams before unwrapping.
+              structure seams before unwrapping for low-poly meshes.
             </p>
             <p>
               Below: qualitative comparison on <b>GarmentCode</b> (<b>GarmentCodeData</b>) garments—
               MeshTailor tends to recover long, meaningful cuts instead of scattered fragments typical
-              of distortion-only optimization.
+              of distortion-only optimization. Check more results in the paper.
             </p>
           </div>
         </div>
@@ -204,7 +204,7 @@
               projection artifacts and fragile snapping heuristics. We introduce
               <b>ChainingSeams</b>, a hierarchical serialization of the seam graph that prioritizes
               global structural cuts before local details in a coarse-to-fine manner, and a
-              dual-stream encoder that fuses topological and geometric context. Leveraging this
+              <b>dual-stream encoder</b> that fuses topological and geometric context. Leveraging this
               hierarchical representation and enriched vertex embeddings, our
               <b>MeshTailor Transformer</b> utilizes an autoregressive pointer layer to trace seams
               vertex-by-vertex within local neighborhoods, ensuring projection-free, edge-aligned
