@@ -107,6 +107,17 @@
                     <span>arXiv</span>
                   </a>
                 </span>
+                <!-- Paper (HTML) on arXiv -->
+                <span class="link-block">
+                  <a href="https://arxiv.org/html/2603.27309v1"
+                    class="external-link button is-normal is-rounded is-dark"
+                    rel="noopener noreferrer">
+                    <span class="icon">
+                      <i class="fas fa-file-code"></i>
+                    </span>
+                    <span>Paper (HTML)</span>
+                  </a>
+                </span>
                 <!-- Paper PDF -->
                 <span class="link-block">
                   <a href="https://arxiv.org/pdf/2603.27309.pdf"
@@ -145,34 +156,76 @@
           poster="./static/images/teaser_short_poster.jpg">
           <source src="./static/videos/vid_teaser_short.mp4" type="video/mp4">
         </video>
+        <br>
         <h2 class="subtitle has-text-centered">
-          <b>MeshTailor</b> generates seams directly on the mesh graph, without projecting coordinates or snapping to edges. The resulting UV charts stay clean and coherent for texturing.
+          Trained on artist seam data, <b>MeshTailor</b> learns professional-style seam placement natively on low-poly meshes. It predicts coherent seams on the input mesh in seconds, enabling strong UV unwrapping.
         </h2>
       </div>
     </div>
   </section>
 
-  <!-- ═══ TL;DR + GARMENTCODE RESULTS ═══════════════════════════════════════ -->
+  <!-- ═══ Abstract ═══════════════════════════════════════ -->
   <section class="section garmentcode-hero" id="results-garmentcode" aria-labelledby="tldr-heading">
     <div class="container is-max-desktop">
       <div class="columns is-centered">
         <div class="column is-four-fifths">
-          <h2 class="title is-3 has-text-left" id="tldr-heading">TL;DR</h2>
+          <h2 class="title is-3 has-text-centered" id="tldr-heading">Abstract</h2>
           <div class="content has-text-left is-size-5">
+            
             <p>
+              We present <b>MeshTailor</b>, the first mesh-native generative framework for synthesizing edge-aligned seams on 3D surfaces. Unlike prior optimization-based or extrinsic learning-based methods, MeshTailor operates directly on the mesh graph, eliminating projection artifacts and fragile snapping heuristics. 
+            </p>
+            <p>
+              We introduce <b>ChainingSeams</b>, a hierarchical serialization of the seam graph that prioritizes global structural cuts before local details in a coarse-to-fine manner, and a <b>dual-stream encoder</b> that fuses topological and geometric context. Leveraging this hierarchical representation and enriched vertex embeddings, our <b>MeshTailor Transformer</b> utilizes an autoregressive pointer layer to trace seams vertex-by-vertex within local neighborhoods, ensuring native coherent seams.
+            </p> 
+            <p> 
+              Extensive evaluations show that MeshTailor produces more coherent, professional-quality seam layouts compared to recent optimization-based and learning-based baselines.
+            </p>
+            <!-- <p>
               <b>MeshTailor</b> generates <b>UV seams on the mesh graph itself</b>—no 2D projections,
               no snapping heuristics. An autoregressive transformer walks the surface and places
               cuts that stay <b>edge-aligned</b> and <b>globally coherent</b>, similar to how artists
               structure seams before unwrapping for low-poly meshes.
             </p>
             <p>
-              Below: qualitative comparison on <b>GarmentCode</b> (<b>GarmentCodeData</b>) garments—
+              Below: qualitative comparison on <b>GarmentCodeData</b> garments—
               MeshTailor tends to recover long, meaningful cuts instead of scattered fragments typical
               of distortion-only optimization. Check more results in the paper.
-            </p>
+            </p> -->
           </div>
         </div>
       </div>
+    </div>
+  </section>
+  <!-- ═══ RESULT GALLERY (from arXiv HTML) ═══════════════════════════════ -->
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <h2 class="title is-3 has-text-centered" id="tldr-heading">Results Gallery</h2>
+      <figure class="image">
+        <img src="./static/images/arxiv_gallery.jpg" class="interpolation-image"
+          alt="MeshTailor seam results on diverse 3D shapes: colored seam chains on meshes.">
+      </figure>
+      <p class="content has-text-centered is-size-6" style="margin-top: 0.75rem;">
+        MeshTailor seam predictions on varied 3D meshes (paper Fig.&nbsp;21).
+      </p>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container is-max-desktop">
+      <!-- ═══ FULL TEASER (long form) ═══════════════════════════════════════ -->
+      <h2 class="title is-3 has-text-centered">Full walkthrough with narration </h2>
+      <div class="container is-max-desktop">
+        <div class="hero-body">
+          <video id="teaser-full" class="teaser-video" loop playsinline controls preload="metadata"
+            poster="./static/images/teaser_full_poster.jpg">
+            <source src="./static/videos/vid_essay.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+
+      <br>
+
       <div class="columns is-centered" style="margin-top: 1.25rem;">
         <div class="column is-11-desktop is-12-tablet">
           <h3 class="title is-4 has-text-left">GarmentCode results</h3>
@@ -186,54 +239,6 @@
           </p>
         </div>
       </div>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="container is-max-desktop">
-
-      <!-- ═══ ABSTRACT ═══════════════════════════════════════════════════ -->
-      <div class="columns is-centered has-text-centered">
-        <div class="column is-four-fifths">
-          <h2 class="title is-3">Abstract</h2>
-          <div class="content has-text-justified">
-            <p>
-              We present <b>MeshTailor</b>, the first mesh-native generative framework for synthesizing
-              edge-aligned seams on 3D surfaces. Unlike prior optimization-based or extrinsic
-              learning-based methods, MeshTailor operates directly on the mesh graph, eliminating
-              projection artifacts and fragile snapping heuristics. We introduce
-              <b>ChainingSeams</b>, a hierarchical serialization of the seam graph that prioritizes
-              global structural cuts before local details in a coarse-to-fine manner, and a
-              <b>dual-stream encoder</b> that fuses topological and geometric context. Leveraging this
-              hierarchical representation and enriched vertex embeddings, our
-              <b>MeshTailor Transformer</b> utilizes an autoregressive pointer layer to trace seams
-              vertex-by-vertex within local neighborhoods, ensuring projection-free, edge-aligned
-              seams. Extensive evaluations show that MeshTailor produces more coherent,
-              professional-quality seam layouts compared to recent optimization-based and
-              learning-based baselines.
-            </p>
-          </div>
-        </div>
-      </div>
-      <!-- end Abstract -->
-
-      <br>
-
-      <!-- ═══ FULL TEASER (long form) ═══════════════════════════════════════ -->
-      <h2 class="title is-3 has-text-centered">Full walkthrough with narration </h2>
-      <!-- <p class="content has-text-centered">
-        
-      </p> -->
-      <div class="container is-max-desktop">
-        <div class="hero-body">
-          <video id="teaser-full" class="teaser-video" loop playsinline controls preload="metadata"
-            poster="./static/images/teaser_full_poster.jpg">
-            <source src="./static/videos/vid_essay.mp4" type="video/mp4">
-          </video>
-        </div>
-      </div>
-
-      <br>
 
       <!-- ═══ RELATED LINKS ═══════════════════════════════════════════════ -->
       <div class="columns is-centered has-text-centered">
