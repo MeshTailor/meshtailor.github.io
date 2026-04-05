@@ -165,11 +165,11 @@
   </section>
 
   <!-- ═══ Abstract ═══════════════════════════════════════ -->
-  <section class="section garmentcode-hero" id="results-garmentcode" aria-labelledby="tldr-heading">
+  <section class="section garmentcode-hero" id="results-garmentcode" aria-labelledby="abstract-heading">
     <div class="container is-max-desktop">
       <div class="columns is-centered">
         <div class="column is-four-fifths">
-          <h2 class="title is-3 has-text-centered" id="tldr-heading">Abstract</h2>
+          <h2 class="title is-3 has-text-centered" id="abstract-heading">Abstract</h2>
           <div class="content has-text-left is-size-5">
             
             <p>
@@ -197,23 +197,24 @@
       </div>
     </div>
   </section>
-  <!-- ═══ RESULT GALLERY (from arXiv HTML) ═══════════════════════════════ -->
+
+  <!-- ═══ RESULTS GALLERY ═══════════════════════════════════════════════ -->
   <div class="container is-max-desktop">
     <div class="hero-body">
-      <h2 class="title is-3 has-text-centered" id="tldr-heading">Results Gallery</h2>
+      <h2 class="title is-3 has-text-centered" id="results-gallery-heading">Results Gallery</h2>
       <figure class="image">
         <img src="./static/images/arxiv_gallery.jpg" class="interpolation-image"
           alt="MeshTailor seam results on diverse 3D shapes: colored seam chains on meshes.">
       </figure>
-      <p class="content has-text-centered is-size-6" style="margin-top: 0.75rem;">
-        MeshTailor seam predictions on varied 3D meshes (paper Fig.&nbsp;21).
+      <p class="content has-text-left is-size-6" style="margin-top: 0.75rem;">
+        MeshTailor produces coherent seam layouts across diverse categories and shapes, including thin components, articulated silhouettes, and complex concavities. Colored curves denote different predicted seam chains overlaid on the input meshes (paper Fig.&nbsp;21).
       </p>
     </div>
   </div>
 
+  <!-- ═══ FULL TEASER (long form) ═══════════════════════════════════════ -->
   <section class="section">
     <div class="container is-max-desktop">
-      <!-- ═══ FULL TEASER (long form) ═══════════════════════════════════════ -->
       <h2 class="title is-3 has-text-centered">Full walkthrough with narration </h2>
       <div class="container is-max-desktop">
         <div class="hero-body">
@@ -223,23 +224,92 @@
           </video>
         </div>
       </div>
+    </div>
+  </section>
 
-      <br>
+  <!-- ═══ PAPER FIGURES (arXiv HTML captions; JPEG assets from arXiv) ═════════ -->
+  <section class="section" id="paper-figures" aria-label="Paper figures">
+    <div class="container is-max-desktop">
+      <div class="hero-body">
 
-      <div class="columns is-centered" style="margin-top: 1.25rem;">
-        <div class="column is-11-desktop is-12-tablet">
-          <h3 class="title is-4 has-text-left">GarmentCode results</h3>
-          <figure class="image">
-            <img src="./static/images/fig_motivation.png"
-              class="interpolation-image"
-              alt="UV seam layouts on GarmentCode garments: professional-style seams versus fragmented optimization-based seams.">
-          </figure>
-          <p class="content has-text-left is-size-6" style="margin-top: 0.75rem;">
-            GarmentCodeData: professional-style seam layouts vs. typical optimization-derived seams (see paper for setup and metrics).
-          </p>
-        </div>
+        <h2 class="title is-3 has-text-centered" id="fig-2-overview">Overview of MeshTailor</h2>
+        <figure class="image">
+          <img src="./static/images/arxiv_figs/fig2_overview.jpg" class="interpolation-image" loading="lazy"
+            alt="Overview of MeshTailor: dual-stream encoder and autoregressive decoder with pointer-based seam traversal.">
+        </figure>
+        <p class="content has-text-left is-size-6" style="margin-top: 0.75rem; margin-bottom: 2.5rem;">
+          Overview of MeshTailor. <b>Left:</b> The dual-stream encoder. The input mesh is processed in parallel: the top stream extracts topological connectivity features via a Graph Encoder on the mesh topology, while the bottom stream samples surface points to extract global shape semantics using a pretrained point-cloud encoder (frozen during training). These representations are fused via cross-attention within Transformer blocks. <b>Right:</b> The autoregressive decoder. At each step, the MeshTailor Transformer conditions on the previously generated sequence (“Seq”) to produce a decoder query. A pointer layer attends to the enhanced vertex embeddings to select the next vertex (green box), which is appended to the sequence. The resulting seam chains partition the mesh into UV charts, visualized here with checkerboard texturing to show low distortion, color-coded charts, and the final 2D UV layout.
+        </p>
+
+        <h2 class="title is-3 has-text-centered" id="fig-5-garmentcode">Seam layout and area distortion comparison on GarmentCodeData</h2>
+        <figure class="image">
+          <img src="./static/images/arxiv_figs/fig5_garment_seam.jpg" class="interpolation-image" loading="lazy"
+            alt="GarmentCodeData: seam layouts on 3D meshes and UV area distortion heatmaps compared across methods.">
+        </figure>
+        <p class="content has-text-left is-size-6" style="margin-top: 0.75rem; margin-bottom: 2.5rem;">
+          Seam layout and area distortion comparison on GarmentCodeData. For each method, we show the predicted seams on the 3D mesh (left) and the corresponding area distortion heatmap on the UV layout (right). While prior methods often produce fragmented or jagged cuts that lead to irregular UV islands, MeshTailor generates cleaner, garment-aligned seam structures with coherent chains and loops, resulting in more regular, compact UV charts while maintaining competitive distortion. Different colors in our seam visualizations indicate distinct seam chains (and loop cuts), highlighting the structured and editable output of our representation.
+        </p>
+
+        <h2 class="title is-3 has-text-centered" id="fig-6-texverse">Seam layout and UV area distortion comparison on TexVerse</h2>
+        <figure class="image">
+          <img src="./static/images/arxiv_figs/fig6_texverse_seam.jpg" class="interpolation-image" loading="lazy"
+            alt="TexVerse: qualitative seam and UV distortion comparison versus baselines.">
+        </figure>
+        <p class="content has-text-left is-size-6" style="margin-top: 0.75rem; margin-bottom: 2.5rem;">
+          Seam layout and UV area distortion comparison on TexVerse. We qualitatively compare MeshTailor with OptCuts, xatlas, Nuvo, Blender Smart UV Project, and PartUV on diverse assets from TexVerse. Compared to existing baselines that often produce fragmented charts or jagged cut boundaries, MeshTailor generates cleaner, mesh-aligned seams with coherent long-range chain/loop structures while maintaining competitive distortion. Different colors in our results denote distinct seam chains/loops, highlighting the structured and editable seam representation.
+        </p>
+
+        <h2 class="title is-3 has-text-centered" id="fig-8-stripe">UV quality under a tiling stripe texture</h2>
+        <figure class="image">
+          <img src="./static/images/arxiv_figs/fig8_uv_map.jpg" class="interpolation-image" loading="lazy"
+            alt="Stripe texture on UV layouts: fragmentation vs coherent charts.">
+        </figure>
+        <p class="content has-text-left is-size-6" style="margin-top: 0.75rem; margin-bottom: 2.5rem;">
+          UV quality under a tiling stripe texture. Fragmented charts and irregular boundaries often cause stripe discontinuities and misalignment, while MeshTailor preserves coherent regions with consistent texture flow.
+        </p>
+
+        <h2 class="title is-3 has-text-centered" id="fig-9-production">Production-oriented UV usability</h2>
+        <figure class="image">
+          <img src="./static/images/arxiv_figs/fig9_texturing.jpg" class="interpolation-image" loading="lazy"
+            alt="Production UV usability: diverse textures and stripe tiling with logo.">
+        </figure>
+        <p class="content has-text-left is-size-6" style="margin-top: 0.75rem; margin-bottom: 2.5rem;">
+          Production-oriented UV usability. (a) Our UV layout supports diverse texture appearances on the same garment. (b) Stripe tiling with a user-edited logo, showing results from prior methods.
+        </p>
+
+        <h2 class="title is-3 has-text-centered" id="fig-10-part">Loop-induced part decomposition</h2>
+        <figure class="image">
+          <img src="./static/images/arxiv_figs/fig10_part_seg.jpg" class="interpolation-image" loading="lazy"
+            alt="MeshTailor loop cuts split the mesh into parts for downstream processing.">
+        </figure>
+        <p class="content has-text-left is-size-6" style="margin-top: 0.75rem; margin-bottom: 2.5rem;">
+          MeshTailor naturally produces loop cuts as part of its seam structure. Applying the predicted loops (middle), we recursively split the input mesh into connected patches with clean, artist-like boundaries, yielding a part decomposition (right) that is directly usable for downstream asset processing.
+        </p>
+
+        <h2 class="title is-3 has-text-centered" id="fig-12-noise">Robustness to vertex noise</h2>
+        <figure class="image">
+          <img src="./static/images/arxiv_figs/fig12_noise_mesh.jpg" class="interpolation-image" loading="lazy"
+            alt="Seam prediction stability under increasing Gaussian vertex noise.">
+        </figure>
+        <p class="content has-text-left is-size-6" style="margin-top: 0.75rem; margin-bottom: 2.5rem;">
+          We perturb the input mesh by adding Gaussian noise to vertices with increasing σ. Predicted seams remain stable when σ&nbsp;&lt;&nbsp;0.010 and gradually degrade as σ increases, with noticeable extra local cuts at σ&nbsp;=&nbsp;0.0125.
+        </p>
+
+        <h2 class="title is-3 has-text-centered" id="fig-13-dac">Divide-and-conquer inference</h2>
+        <figure class="image">
+          <img src="./static/images/arxiv_figs/fig13_divide_and_conquer.jpg" class="interpolation-image" loading="lazy"
+            alt="Divide-and-conquer decoding: recursive seam prediction on sub-meshes.">
+        </figure>
+        <p class="content has-text-left is-size-6" style="margin-top: 0.75rem; margin-bottom: 2.5rem;">
+          Divide-and-conquer inference. Starting from a high-resolution mesh, MeshTailor predicts a major seam loop to split the surface into disconnected components, then recursively applies the same seam-tracing process to each sub-mesh. This recursion progressively decomposes the asset into semantically coherent parts, yielding clean, edge-aligned seams and the corresponding UV charts.
+        </p>
+
       </div>
+    </div>
+  </section>
 
+  <section class="section">
+    <div class="container is-max-desktop">
       <!-- ═══ RELATED LINKS ═══════════════════════════════════════════════ -->
       <div class="columns is-centered has-text-centered">
         <div class="column is-four-fifths">
